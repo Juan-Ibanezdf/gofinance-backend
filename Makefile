@@ -4,10 +4,13 @@ createDb:
 postgres:
 	docker run --name postgres14 -p 5432:5432 -e POSTGRES_PASSWORD=powtgres -d postgres:14-alpine
 
-migrationUp:
+migrationup:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose up
 
-migrationDrop:
+migrationdrop:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose drop
 
-.PHONY: createDb postgres 
+test:
+	go test -v -cover ./...
+
+.PHONY: createDb postgres  migrationup migrationdrop test
