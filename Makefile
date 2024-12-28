@@ -1,16 +1,22 @@
 createdb:
-  docker exec -it postgres14 createdb --username=postgres --owner=postgres go_finance
+	createdb --username=postgres --owner=postgres go_finance
 
 postgres:
-  docker run --name postgres14 -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:14-alpine
+	docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:14-alpine
 
 migrateup:
-  migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose up
 
 migrationdrop:
-  migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose drop
+	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose down
 
 test:
-  go test -v -cover ./...
+	go test -v -cover ./...
 
-.PHONY: createdb postgres migrateup migrationdrop test
+server:
+	go run main.go
+
+sqlc-gen:
+	docker run --rm -v $$(pwd):/src -w /src kjconroy/sqlc generate
+
+.PHONY: createdb postgres dropdb migrateup migrationdrop test server sqlc-gen
