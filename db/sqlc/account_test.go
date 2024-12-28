@@ -88,20 +88,17 @@ func TestUpdateAccount(t *testing.T) {
 
 func TestListAccounts(t *testing.T) {
 	lastAccount := createRandomAccount(t)
-
 	arg := GetAccountsParams{
 		UserID:      lastAccount.UserID,
 		Type:        lastAccount.Type,
-		CategoryID:  lastAccount.CategoryID, // Extrai o valor Int32 de sql.NullInt32
-		Date:        lastAccount.Date,       // Extrai o valor Time de sql.NullTime
+		CategoryID:  lastAccount.CategoryID,
+		Date:        lastAccount.Date,
 		Title:       lastAccount.Title,
 		Description: lastAccount.Description,
 	}
-
 	accounts, err := testQueries.GetAccounts(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, accounts)
-
 	for _, account := range accounts {
 		require.Equal(t, lastAccount.ID, account.ID)
 		require.Equal(t, lastAccount.UserID, account.UserID)
@@ -115,25 +112,20 @@ func TestListAccounts(t *testing.T) {
 
 func TestListGetReports(t *testing.T) {
 	lastAccount := createRandomAccount(t)
-
 	arg := GetAccountsReportsParams{
 		UserID: lastAccount.UserID,
 		Type:   lastAccount.Type,
 	}
-
 	sumValue, err := testQueries.GetAccountsReports(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, sumValue)
 }
-
 func TestListGetGraph(t *testing.T) {
 	lastAccount := createRandomAccount(t)
-
 	arg := GetAccountsGraphParams{
 		UserID: lastAccount.UserID,
 		Type:   lastAccount.Type,
 	}
-
 	graphValue, err := testQueries.GetAccountsGraph(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, graphValue)
