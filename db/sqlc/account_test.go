@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"log"
 	"testing"
 	"time"
 
@@ -93,8 +92,8 @@ func TestListAccounts(t *testing.T) {
 	arg := GetAccountsParams{
 		UserID:      lastAccount.UserID,
 		Type:        lastAccount.Type,
-		CategoryID:  lastAccount.CategoryID,
-		Date:        lastAccount.Date,
+		CategoryID:  lastAccount.CategoryID, // Extrai o valor Int32 de sql.NullInt32
+		Date:        lastAccount.Date,       // Extrai o valor Time de sql.NullTime
 		Title:       lastAccount.Title,
 		Description: lastAccount.Description,
 	}
@@ -111,7 +110,6 @@ func TestListAccounts(t *testing.T) {
 		require.Equal(t, lastAccount.Value, account.Value)
 		require.NotEmpty(t, lastAccount.CreatedAt)
 		require.NotEmpty(t, lastAccount.Date)
-		log.Fatal("Account category title ", account.CategoryTitle)
 	}
 }
 
