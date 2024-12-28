@@ -82,11 +82,11 @@ func TestListCategories(t *testing.T) {
 		Description: lastCategory.Description,
 	}
 
-	Categorys, err := testQueries.GetCategories(context.Background(), arg)
+	categorys, err := testQueries.GetCategories(context.Background(), arg)
 	require.NoError(t, err)
-	require.NotEmpty(t, Categorys)
+	require.NotEmpty(t, categorys)
 
-	for _, category := range Categorys {
+	for _, category := range categorys {
 		require.Equal(t, lastCategory.ID, category.ID)
 		require.Equal(t, lastCategory.UserID, category.UserID)
 		require.Equal(t, lastCategory.Title, category.Title)
