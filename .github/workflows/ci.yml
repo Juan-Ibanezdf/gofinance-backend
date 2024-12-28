@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Run Test
+    name: Test
     runs-on: ubuntu-latest
 
     services:
@@ -20,7 +20,7 @@ jobs:
           POSTGRES_DB: go_finance
         ports:
           - 5432:5432
-        options: >
+        options: |
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
@@ -47,3 +47,12 @@ jobs:
 
       - name: Run Test
         run: make test
+      
+      - name: Verify PostgreSQL is ready
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL..."
+            sleep 5
+          done
+
+        
