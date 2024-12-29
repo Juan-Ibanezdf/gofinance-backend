@@ -17,7 +17,7 @@ func NewServer(store *db.SQLStore) *Server {
 	// vamos por nossas rotas
 	router.POST("/user", server.createUser)
 	router.GET("/user/:username", server.getUser)
-	router.POST("/user/:id", server.getUserById)
+	router.POST("/user/id/:id", server.getUserById)
 
 	server.router = router
 	return server
